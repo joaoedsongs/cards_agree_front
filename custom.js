@@ -1,5 +1,5 @@
 const url_back = 'http://127.0.0.1:8000/api/v1';
-const accessToken = localStorage.getItem("accessToken");
+let accessToken = localStorage.getItem("accessToken");
 let cardId;
 
 const getData = async () =>{
@@ -14,7 +14,7 @@ const getData = async () =>{
             Authorization: `Bearer ${accessToken}`,
         };
 
-        let { data } =await axios.get(`${url_back}/cards`, { headers });
+        let { data } = await axios.get(`${url_back}/cards`, { headers });
         
         makeDataTables(data);
         
@@ -37,13 +37,14 @@ const login = async () => {
         }
 
         const postData = {
-            "email": "test@example.com",
+            "email": "front@example.com",
             "password": "password"
         };
         
         let { data } = await axios.post(`${url_back}/login`, postData);
             
         localStorage.setItem("accessToken", data.token);
+        accessToken = data.token;
 
     } catch (error) {
         console.error("Error en la solicitud:", error);                
